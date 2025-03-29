@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
+import InputTodo from './components/InputTodo.vue'
 
 const editingIndex = ref(-1);
 const NewItem = ref('')
@@ -41,19 +42,12 @@ const removeItem=(item)=> {
   saveTodos()
 }
 
-//顯示已完成項目
-// const eventDone = computed(() => {
-//   return hideDone.value
-//     ? ItemList.value.filter((item) => !item.done)
-//     : ItemList.value
-// })
+
 const eventDone = computed(() => {
   return hideDone.value
     ? ItemList.value.filter((item) => !item.done)
     : ItemList.value
 })
-
-
 
 
 const loadTodos = () => {
@@ -69,6 +63,7 @@ const saveTodos = () => {
 </script>
 
 <template>
+     <InputTodo />
     <div class="card px-6 shadow-md rounded-md bg-white-50">
       <form class="m-1 p-1" @submit.prevent="AddItem">
         <input class="mr-5 p-2 border-2 border-stone-200 rounded-md"  v-model="NewItem" placeholder="待辦事項">
