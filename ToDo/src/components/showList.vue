@@ -1,11 +1,24 @@
 <script setup>
-// import {onMounted} from 'vue'
+import {ref} from 'vue'
 //主元件傳ItemList
 const props = defineProps({
-  ItemList: String
+  ItemList: Array
 })
+// 定義 emits
+const emit = defineEmits(['EditItem', 'removeItem']);
 
-// const editingIndex = ref(-1);
+// 編輯相關的狀態
+const editingIndex = ref(-1);
+const editingText = ref('');
+const editInput = ref(null);
+
+// 切換完成狀態
+// const toggleCompleted = (index) => {
+//   emit('update-todo', index, { 
+//     completed: !props.todos[index].completed 
+//   });
+// };
+
 
 const EditItem=(item ,id)=> {
   editingIndex.value = id;
@@ -27,7 +40,6 @@ const removeItem=(item)=> {
   saveTodos()
 }
 
-// watch(ItemList)
 
 </script>
 

@@ -1,12 +1,15 @@
 <script setup>
-import { ref, onMounted, computed ,watch} from 'vue'
+import { ref, onMounted, computed ,watch, Text} from 'vue'
 import Input from './Input.vue';
 import ShowList from './showList.vue';
 
 
 // const editingIndex = ref(-1);
 // const NewItem = ref('')
+
+//清單及清單最大數量
 const ItemList=  ref([])
+const maxTodos = 10;
 // const hideDone = ref(false)
 const STORAGE_KEY = 'vue-todolist-items';
 
@@ -18,7 +21,6 @@ onMounted(() => {
 //取得localstorage的資料
 const loadTodos = () => {
   const savedTodos = localStorage.getItem(STORAGE_KEY);
-  // console.log(savedTodos)
   if (savedTodos) {
     ItemList.value = JSON.parse(savedTodos);
   }
@@ -26,24 +28,26 @@ const loadTodos = () => {
   console.log(ItemList)
 };
 
+// 儲存待辦事項到 localStorage
+const saveTodos = () => {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(ItemList.value));
+};
 
 
+const AddItem =()=>{
+  if (ItemList.value.length < maxTodos) {    
+  ItemList.value.push({ id: ItemList.value.length , text:text, done:false })
+  console.log(text)
+  // NewItem.value = ''
+  saveTodos()
+  window.location.reload();
+  }
+}
 
-// const AddItem =()=>{
-//   if (NewItem.value.trim()=='' || ItemList.value.length>=10) {
-//       return; 
-//     }
-//   ItemList.value.push({ id: ItemList.value.length , text: NewItem.value, done:false })
-//   console.log(ItemList)
-//   NewItem.value = ''
-//   saveTodos()
-//   window.location.reload();
-// }
-
-// const EditItem=(item ,id)=> {
-//   editingIndex.value = id;
-//   saveTodos()
-// }
+const EditItem=(item ,id)=> {
+  editingIndex.value = id;
+  saveTodos()
+}
 
 // const SaveItem=(item,id)=> {
 //   editingIndex.value = id;
@@ -54,11 +58,11 @@ const loadTodos = () => {
   
 // };
 
-// const removeItem=(item)=> {
-//   ItemList.value.splice(ItemList.value.indexOf(item), 1) //刪除對應id項目
-//   console.log(ItemList)
-//   saveTodos()
-// }
+const removeItem=(item)=> {
+  ItemList.value.splice(ItemList.value.indexOf(item), 1) //刪除對應id項目
+  console.log(ItemList)
+  saveTodos()
+}
 
 
 // const eventDone = computed(() => {
@@ -67,18 +71,25 @@ const loadTodos = () => {
 //     : ItemList.value
 // })
 
+watch(ItemList, ()=>{
+  saveTodos();
+})
 
-// const saveTodos = () => {
-//   localStorage.setItem(STORAGE_KEY, JSON.stringify(ItemList.value));
-// };
-// watch(ItemList)
+onMounted(() => {
+  loadTodos();
+});
 </script>
 
 <template>
     <div class="card px-6 shadow-md rounded-md bg-white-50">
-      <Input  @OnAdd="(Item) => ItemList = Item" />
+      <h1>ToDoList</h1>
+      <Input   :ItemList="ItemList"
+      :maxTodos="maxTodos"
+      @add-todo="AddItem" />
         <!-- <p>{{ItemList}}</p> -->
-      <ShowList :ItemList="ItemList" />
+      <ShowList       :ItemList="ItemList"
+      @update-todo="EditItem"
+      @remove-todo="removeItem" />
     </div>
 </template>
 
