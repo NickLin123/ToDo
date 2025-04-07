@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, computed ,watch} from 'vue'
-import Input from './Input.vue';
+import Input from './InputTodo.vue';
 import ShowList from './showList.vue';
 
 
@@ -21,8 +21,6 @@ const loadTodos = () => {
   if (savedTodos) {
     ItemList.value = JSON.parse(savedTodos);
   }
-  // console.log(savedTodos)
-  console.log(ItemList)
 };
 
 // 儲存待辦事項到 localStorage
@@ -32,19 +30,18 @@ const saveTodos = () => {
 
 
 const AddItem =(text)=>{  
-  ItemList.value.push({ id: ItemList.value.length , text:text, done:false })
+  ItemList.value.push({ id: Date.now() , text:text, done:false })
   console.log(text)
   // NewItem.value = ''
   Message.value='新增成功'
   saveTodos()
-  window.location.reload()
+  loadTodos();
 }
 
 const EditItem=(item ,id)=> {
   editingIndex.value = id;
   Message.value='編輯成功'
   saveTodos()
-  window.location.reload()
 }
 
 const removeItem=(item)=> {
@@ -69,9 +66,9 @@ watch(ItemList, ()=>{
 </script>
 
 <template>
-    <div class="card px-6 shadow-md rounded-md flex flex-col bg-black-100 justify-center sm:py-12">
+    <div class="card px-6 shadow-md rounded-md flex flex-col justify-center sm:py-12 ">
       <h1 class="text-3xl font-extrabold text-gray-500 mb-6">ToDoList</h1>
-       <p class="px-3 py-1 rounded-md text-gray-500 cursor-pointer" @click="hideDone = !hideDone">
+      <p class="px-3 py-1 rounded-md text-gray-600 cursor-pointer" @click="hideDone = !hideDone">
         {{ hideDone ? '顯示全部待辦清單' : '顯示已完成待辦清單' }}</p>
       <Input   :ItemList="ItemList"
       :maxTodos="maxTodos"
