@@ -10,7 +10,7 @@ const ItemList=  ref([])
 const maxTodos = 10;
 const hideDone = ref(false)
 const STORAGE_KEY = 'vue-todolist-items';
-
+// const isEdited = ref()
 onMounted(() => {
   loadTodos();
 });
@@ -22,6 +22,15 @@ const loadTodos = () => {
     ItemList.value = JSON.parse(savedTodos);
   }
 };
+
+//提示訊息消失Delay
+// const messageDispear = setInterval(
+//     function(){
+//       if( Message.value='編輯成功'){
+//         Message.value=''
+//       }
+//     }
+//   ,1000)
 
 // 儲存待辦事項到 localStorage
 const saveTodos = () => {
@@ -36,11 +45,26 @@ const AddItem =(text)=>{
   Message.value='新增成功'
   saveTodos()
   loadTodos();
+  setInterval(
+    function(){
+      if( Message.value='新增成功'){
+        Message.value=''
+      }
+    }
+  ,1500)
 }
 
 const EditItem=(item ,id)=> {
   editingIndex.value = id;
   Message.value='編輯成功'
+  saveTodos()
+  setInterval(
+    function(){
+      if( Message.value='編輯成功'){
+        Message.value=''
+      }
+    }
+  ,1500)
   saveTodos()
 }
 
@@ -49,7 +73,13 @@ const removeItem=(item)=> {
   console.log(ItemList)
   Message.value='刪除成功'
   saveTodos()
-
+  setInterval(
+    function(){
+      if( Message.value='刪除成功'){
+        Message.value=''
+      }
+    }
+  ,1500)
 }
 
 const filteredItems = computed(() => {
