@@ -45,41 +45,38 @@ const AddItem =(text)=>{
   Message.value='新增成功'
   saveTodos()
   loadTodos();
-  setInterval(
+  setTimeout(
     function(){
-      if( Message.value='新增成功'){
+      if( Message.value=='新增成功'){
         Message.value=''
       }
     }
-  ,1500)
+  ,2000)
 }
 
 const EditItem=(item ,id)=> {
   editingIndex.value = id;
   Message.value='編輯成功'
-  saveTodos()
-  setInterval(
+  setTimeout(
     function(){
       if( Message.value='編輯成功'){
         Message.value=''
       }
     }
-  ,1500)
+  ,2000)
   saveTodos()
 }
 
 const removeItem=(item)=> {
   ItemList.value.splice(ItemList.value.indexOf(item), 1) //刪除對應id項目
-  console.log(ItemList)
   Message.value='刪除成功'
-  saveTodos()
-  setInterval(
+  setTimeout(
     function(){
       if( Message.value='刪除成功'){
         Message.value=''
       }
     }
-  ,1500)
+  ,2000)
 }
 
 const filteredItems = computed(() => {

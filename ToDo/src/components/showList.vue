@@ -63,6 +63,9 @@ watch(isEditing, () => {
   if (isEditing.value > 10) {
     error.value = '待辦事項字數最多只能10個字'
   }
+  if (isEditing.value === '') {
+    error.value = '待辦事項不得為空'
+  }
 })
 </script>
 
@@ -72,7 +75,7 @@ watch(isEditing, () => {
         <li class="flex flex-row items-center m-1 px-5 rounded-md shadow-md"   v-for="(item, id) in eventDone" :key="item.id">
           <input class="mr-2" :checked="item.done" type="checkbox" v-model="item.done" @click="compeledTime()">
           <div class="w-30 mx-5">
-            <span class="mx-5 w-20 text-gray-600 text-2xl">{{item.text}}</span>
+            <span class="mx-5 w-20 text-gray-600 text-2l">{{item.text}}</span>
           </div>
           <div v-if="item.done==true" class="mx-5 text-gray-500 text-sm ">
             <span class="mx-5 text-gray-500 text-sm ">完成時間 : {{compeledTime()}}</span>
