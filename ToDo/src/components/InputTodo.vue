@@ -28,6 +28,7 @@ const handleAddItem = () => {
   // 數量限制檢查
   if (props.ItemList.length >= 10) {
     error.value = '待辦事項最多只能有10個'
+    NewItem.value = '';
     return
   }
   if (NewItem.value.length >= 10) {

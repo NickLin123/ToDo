@@ -10,7 +10,6 @@ const ItemList=  ref([])
 const maxTodos = 10;
 const hideDone = ref(false)
 const STORAGE_KEY = 'vue-todolist-items';
-// const isEdited = ref()
 onMounted(() => {
   loadTodos();
 });
@@ -23,15 +22,6 @@ const loadTodos = () => {
   }
 };
 
-//提示訊息消失Delay
-// const messageDispear = setInterval(
-//     function(){
-//       if( Message.value='編輯成功'){
-//         Message.value=''
-//       }
-//     }
-//   ,1000)
-
 // 儲存待辦事項到 localStorage
 const saveTodos = () => {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(ItemList.value));
@@ -40,7 +30,6 @@ const saveTodos = () => {
 
 const AddItem =(text)=>{  
   ItemList.value.push({ id: Date.now() , text:text, done:false })
-  console.log(text)
   // NewItem.value = ''
   Message.value='新增成功'
   saveTodos()
@@ -77,23 +66,23 @@ const removeItem=(item)=> {
       }
     }
   ,2000)
+  saveTodos()
 }
 
 const filteredItems = computed(() => {
-  if(hideDone.value==true){
+  if(hideDone.value===true){
     return ItemList.value.filter(item => item.done)
   }else{
     return ItemList.value
   }
 })
 
-watch(ItemList, ()=>{
-  saveTodos();
-})
+
+
 </script>
 
 <template>
-    <div class="card px-6 shadow-md rounded-md flex flex-col justify-center sm:py-12 ">
+    <div class="card  px-6 shadow-md rounded-md flex flex-col justify-center sm:py-12 ">
       <h1 class="text-3xl font-extrabold text-gray-500 mb-6">ToDoList</h1>
       <p class="px-3 py-1 rounded-md text-gray-600 cursor-pointer" @click="hideDone = !hideDone">
         {{ hideDone ? '顯示全部待辦清單' : '顯示已完成待辦清單' }}</p>
